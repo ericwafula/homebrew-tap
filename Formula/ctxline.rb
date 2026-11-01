@@ -26,7 +26,10 @@ class Ctxline < Formula
   test do
     ENV["NO_COLOR"] = "1"
     ENV["CLAUDE_CONFIG_DIR"] = testpath
-    payload = '{"model":{"display_name":"Opus"},"context_window":{"total_input_tokens":42000,"context_window_size":200000}}'
+    payload = {
+      model:          { display_name: "Opus" },
+      context_window: { total_input_tokens: 42000, context_window_size: 200000 },
+    }.to_json
     assert_equal "Opus · ctx 42k (21%)", pipe_output(bin/"ctxline", payload).strip
     assert_equal version.to_s, shell_output("#{bin}/ctxline --version").strip
   end
